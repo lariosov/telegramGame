@@ -22,19 +22,20 @@ cur = con.cursor()
 
 # Создаем БД
 def start_database():
-    # Создаем таблицу пользователей
+    # Таблица пользователей
     cur.execute('''
         CREATE TABLE IF NOT EXISTS users(
         ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         NAME TEXT,
         USER_NAME TEXT NOT NULL,
         USER_ID TEXT NOT NULL,
-        USER_BALANCE INTEGER NOT NULL
+        USER_BALANCE INTEGER NOT NULL,
+        UNIQUE (USER_ID)
         );
     ''')
     con.commit()
 
-    # Создаем таблицу активностей
+    # Таблица активностей
     cur.execute('''
         CREATE TABLE IF NOT EXISTS activity(
         ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -44,12 +45,24 @@ def start_database():
     ''')
     con.commit()
 
-    # Создаем таблицу магазина
+    # Таблица магазина
     cur.execute('''
         CREATE TABLE IF NOT EXISTS shop(
         ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         NAME TEXT,
         SHOP_UNIT_COST INTEGER NOT NULL
+        );
+    ''')
+    con.commit()
+
+    # Таблица транзакций
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS transaction(
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        TRANS_UNIT TEXT NOT NULL,
+        TRANS_DATE TEXT NOT NULL,
+        IS_ACTIVITY INTEGER NOT NULL,
+        IS_SHOP INTEGER NOT NULL
         );
     ''')
     con.commit()
@@ -62,6 +75,7 @@ dp = Dispatcher(bot)
 
 
 def main():
+    start_database()
     executor.start_polling(dp, skip_updates=True)
 
 
