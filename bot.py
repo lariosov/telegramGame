@@ -39,7 +39,7 @@ def start_database():
         CREATE TABLE IF NOT EXISTS activity(
         ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         NAME TEXT,
-        ACTIVITY_PRICE INTEGER NOT NULL,
+        ACTIVITY_PRICE INTEGER NOT NULL
         );
     ''')
     con.commit()
